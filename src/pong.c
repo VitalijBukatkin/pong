@@ -10,6 +10,7 @@
 #include "../include/util/common.h"
 
 bool FULLSCREEN = true;
+char RESOURCES_PATH[150] = RESOURCES_PATH_CONST;
 char THEME[100] = "space";
 
 SDL_Window *win;

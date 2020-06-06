@@ -17,9 +17,9 @@
 #define MAX_SCORE 10
 
 #ifdef DEBUG
-static char RESOURCES_PATH[100] = "../share/pong-0.1/themes/";
+#define RESOURCES_PATH_CONST "../share/pong-0.1/themes/"
 #else
-static char RESOURCES_PATH[150] = "/usr/local/share/pong-0.1/themes/";
+#define RESOURCES_PATH_CONST "/usr/local/share/pong-0.1/themes/"
 #endif
 
 #define HAPTIC_STRENGTH 0.7f

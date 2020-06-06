@@ -13,7 +13,7 @@ sources = files('src/pong.c', 'include/pong.h',
     'include/util/events.h', 'src/util/events.c',
     'include/util/loader.h', 'src/util/loader.c',
     'src/util/render.c', 'include/util/render.h',
-    'include/util/common.c', 'include/util/common.h')
+    'src/util/common.c', 'include/util/common.h')
 
 executable('pong', sources, dependencies: dependencies, install: true,)
 
