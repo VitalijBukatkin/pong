@@ -6,13 +6,11 @@
 #include "../include/game.h"
 #include "../include/util/common.h"
 
-char text_buff[100];
-
 void init_game_elements(Ball *ball, Player *pl1, Player *pl2) {
     ball->x = (SCREEN_WIDTH - ball->w) / 2;
     ball->y = (SCREEN_HEIGHT - ball->h) / 2;
-    ball->speed_x = BALL_SPEED * Common_GetRandom(-1, 1);
-    ball->speed_y = BALL_SPEED * Common_GetRandom(-1, 1);
+    ball->speed_x = Common_GetRandomInt(0, 1) == 0 ? BALL_SPEED : -BALL_SPEED;
+    ball->speed_y = Common_GetRandomInt(0, 1) == 0 ? BALL_SPEED : -BALL_SPEED;
 
     pl1->x = 0;
     pl1->y = (SCREEN_HEIGHT - pl1->h) / 2;
@@ -28,7 +26,8 @@ void init_game_elements(Ball *ball, Player *pl1, Player *pl2) {
 void ball_move(Ball *ball, int checkFall) {
     if (checkFall == 2) {
         ball->speed_x = -ball->speed_x;
-    } else if (ball->y + ball->h + ball->speed_y > SCREEN_HEIGHT || ball->y + ball->speed_y < 0) {
+    } else if (ball->y + ball->h + ball->speed_y > SCREEN_HEIGHT
+               || ball->y + ball->speed_y < 0) {
         ball->speed_y = -ball->speed_y;
     }
 
@@ -70,7 +69,7 @@ void start_new_game(Ball *ball, Player *pl1, Player *pl2) {
 
     pl1->score = 0;
     pl2->score = 0;
-    pl1->speed = (SCREEN_HEIGHT / 100) * 4;
+    pl1->speed = (SCREEN_HEIGHT / 100) * 3;
     pl2->speed = (SCREEN_HEIGHT / 100) * 3;
 }
 
@@ -118,9 +117,9 @@ void render_game(SDL_Renderer *ren, Ball ball, Player pl1, Player pl2) {
     Render_ApplyTexture(ren, ball.x, ball.y, ball_texture);
 
     sprintf(text_buff, "%d", pl1.score);
-    Render_ApplyTextWithColor(ren, fonts.main, text_buff, pl1.w + 10, pl1.w, 255, 255, 255);
+    Render_ApplyTextWithColor(ren, fonts.main, text_buff, pl1.w + 10, pl1.w, TEXT_COLOR);
     sprintf(text_buff, "%d", pl2.score);
-    Render_ApplyTextWithColor(ren, fonts.main, text_buff, SCREEN_WIDTH - pl2.w - 20, pl2.w, 255, 255, 255);
+    Render_ApplyTextWithColor(ren, fonts.main, text_buff, SCREEN_WIDTH - pl2.w - 20, pl2.w, TEXT_COLOR);
 
     SDL_RenderPresent(ren);
 }
@@ -142,7 +141,7 @@ void render_end_game(SDL_Renderer *ren, Player pl1, Player pl2) {
         winner = "ALL";
 
     sprintf(text_buff, "%s win!!! Score: %d/%d", winner, pl1.score, pl2.score);
-    Render_ApplyTextWithColor(ren, fonts.main, text_buff, (SCREEN_WIDTH / 2) - 150, SCREEN_HEIGHT / 2, 255, 255, 255);
+    Render_ApplyTextWithColor(ren, fonts.main, text_buff, (SCREEN_WIDTH / 2) - 150, SCREEN_HEIGHT / 2, TEXT_COLOR);
     SDL_RenderPresent(ren);
 }
 
@@ -171,9 +170,9 @@ void Game_Loop(SDL_Renderer *ren) {
         int checkFall = check_fall(ball, player1, player2);
         if (checkFall == 0 || checkFall == 1) {
             if (checkFall)
-                player2.score++;
-            else
                 player1.score++;
+            else
+                player2.score++;
             if (player1.score >= MAX_SCORE || player2.score >= MAX_SCORE) {
                 run = false;
                 break;
@@ -199,5 +198,5 @@ void Game_Loop(SDL_Renderer *ren) {
     Common_PlayRumble(haptic);
     render_end_game(ren, player1, player2);
 
-    SDL_Delay(2000);
+    SDL_Delay(5000);
 }

@@ -17,9 +17,9 @@
 #define MAX_SCORE 10
 
 #ifdef DEBUG
-#define RESOURCES_PATH "../share/pong-0.1/themes/space/"
+static char RESOURCES_PATH[100] = "../share/pong-0.1/themes/";
 #else
-#define RESOURCES_PATH "/usr/local/share/pong-0.1/themes/space/"
+static char RESOURCES_PATH[150] = "/usr/local/share/pong-0.1/themes/";
 #endif
 
 #define HAPTIC_STRENGTH 0.7f
@@ -28,6 +28,9 @@
 static int SCREEN_WIDTH = 1280;
 static int SCREEN_HEIGHT = 800;
 static int BALL_SPEED = 35;
+static SDL_Color TEXT_COLOR = {255, 255, 255};
+
+static char text_buff[100];
 
 extern SDL_Joystick *joystick;
 extern SDL_Haptic *haptic;

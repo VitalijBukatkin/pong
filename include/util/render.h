@@ -16,6 +16,6 @@ void Render_ApplyTexture(SDL_Renderer *ren, int x, int y, SDL_Texture *tex);
 /**
  * Apply text on screen
  */
-void Render_ApplyTextWithColor(SDL_Renderer *ren, TTF_Font *font, char *text, int x, int y, int r, int g, int b);
+void Render_ApplyTextWithColor(SDL_Renderer *ren, TTF_Font *font, char *text, int x, int y, SDL_Color textColor);
 
 #endif //PONG_RENDER_H

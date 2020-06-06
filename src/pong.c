@@ -7,8 +7,10 @@
 #include "../include/game.h"
 #include "../include/diagnostics.h"
 #include "../include/util/loader.h"
+#include "../include/util/common.h"
 
 bool FULLSCREEN = true;
+char THEME[100] = "space";
 
 SDL_Window *win;
 SDL_Renderer *ren;
@@ -19,12 +21,13 @@ TexturesPack textures;
 FontsPack fonts;
 SoundsPack sounds;
 
-bool init_textures() {
-    textures.background = Loader_LoadTexture(ren, RESOURCES_PATH "/images/background.png");
-    textures.ball = Loader_LoadTexture(ren, RESOURCES_PATH "/images/ball.png");
-    textures.ball_active = Loader_LoadTexture(ren, RESOURCES_PATH "/images/ball-active.png");
-    textures.deck = Loader_LoadTexture(ren, RESOURCES_PATH "/images/deck.png");
-
+bool init_resources() {
+    textures.background = Loader_LoadTexture(ren,
+                                             Common_StringConcat(text_buff, RESOURCES_PATH, "/images/background.png"));
+    textures.ball = Loader_LoadTexture(ren, Common_StringConcat(text_buff, RESOURCES_PATH, "/images/ball.png"));
+    textures.ball_active = Loader_LoadTexture(ren, Common_StringConcat(text_buff, RESOURCES_PATH,
+                                                                       "/images/ball-active.png"));
+    textures.deck = Loader_LoadTexture(ren, Common_StringConcat(text_buff, RESOURCES_PATH, "/images/deck.png"));
     if (textures.background == NULL ||
         textures.ball == NULL ||
         textures.deck == NULL) {
@@ -32,20 +35,13 @@ bool init_textures() {
         return false;
     }
 
-    return true;
-}
-
-bool init_sounds() {
-    sounds.beep = Loader_LoadAudio(RESOURCES_PATH"sounds/beep.wav");
+    sounds.beep = Loader_LoadAudio(Common_StringConcat(text_buff, RESOURCES_PATH, "/sounds/beep.wav"));
     if (sounds.beep == NULL) {
         printf("Loader_LoadAudio: %s\n", SDL_GetError());
         return false;
     }
-    return true;
-}
 
-bool init_fonts() {
-    fonts.main = Loader_LoadFont(RESOURCES_PATH"fonts/Fonts-Online.ttf", 24);
+    fonts.main = Loader_LoadFont(Common_StringConcat(text_buff, RESOURCES_PATH, "/fonts/Fonts-Online.ttf"), 24);
     if (fonts.main == NULL) {
         printf("Loader_LoadFont: %s\n", SDL_GetError());
         return false;
@@ -93,6 +89,9 @@ bool init_libraries() {
 }
 
 bool init_game() {
+    strcat(RESOURCES_PATH, THEME);
+    srand(time(NULL));
+
     if (!init_libraries()) {
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
                                  "Can't load!",
@@ -127,17 +126,12 @@ bool init_game() {
         return false;
     }
 
-    if (!init_joystick() ||
-        !init_textures() ||
-        !init_sounds() ||
-        !init_fonts()) {
+    if (!init_resources()) {
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
                                  "Can't load!",
                                  "Init game resources is fail. See output", NULL);
         return false;
     }
-
-    srand(time(NULL));
 
     return true;
 }
@@ -172,7 +166,7 @@ void show_start_window() {
     for (int i = 0; i < 4; i++) {
         Render_ApplyTextWithColor(ren, fonts.main, text[i],
                                   (SCREEN_WIDTH / 2) - 200,
-                                  (SCREEN_HEIGHT - 80) / 2 + i * 30, 255, 255, 255);
+                                  (SCREEN_HEIGHT - 80) / 2 + i * 30, TEXT_COLOR);
     }
 
     SDL_RenderPresent(ren);
@@ -192,7 +186,7 @@ void show_end_window() {
     for (int i = 0; i < 3; i++) {
         Render_ApplyTextWithColor(ren, fonts.main, text[i],
                                   (SCREEN_WIDTH / 2) - 200,
-                                  (SCREEN_HEIGHT - 70) / 2 + i * 30, 255, 255, 255);
+                                  (SCREEN_HEIGHT - 70) / 2 + i * 30, TEXT_COLOR);
     }
 
     SDL_RenderPresent(ren);
@@ -206,50 +200,59 @@ void print_help() {
            " -w 1024 - display width\n"
            " -h 768 - display height\n"
            " -f true/false - fullscreen\n"
-           " -s 35 - ball speed\n\n"
+           " -s 35 - ball speed\n"
+           " -t space - set game theme\n"
+           " -c 255 255 255 - set text color (0 - 255)\n"
            " Developer: Vitalij Bukatkin\n"
            " (t.me/wbkid, vitaliy.bukatkin@gmail.com)\n"
            " 2020\n");
 }
 
-int choose_arguments(int argc, char *argv[]) {
+int prepare_arguments(int argc, char **argv) {
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "--d") == 0) {
-            init_libraries();
-            init_joystick();
-            Diagnostics_Loop(joystick);
+            if (init_libraries() && init_joystick()) {
+                Diagnostics_Loop(joystick);
+            }
             return 1;
         } else if (strcmp(argv[i], "--h") == 0) {
             print_help();
             return 1;
         } else if (strcmp(argv[i], "-w") == 0 && argc > i + 1) {
-            int width = atoi(argv[i + 1]);
+            int width = atoi(argv[++i]);
             if (width > 0)
                 SCREEN_WIDTH = width;
-            i++;
         } else if (strcmp(argv[i], "-h") == 0 && argc > i + 1) {
-            int height = atoi(argv[i + 1]);
+            int height = atoi(argv[++i]);
             if (height > 0)
                 SCREEN_HEIGHT = height;
-            i++;
         } else if (strcmp(argv[i], "-s") == 0 && argc > i + 1) {
-            int speed = atoi(argv[i + 1]);
+            int speed = atoi(argv[++i]);
             if (speed > 0)
                 BALL_SPEED = speed;
-            i++;
         } else if (strcmp(argv[i], "-f") == 0 && argc > i + 1) {
-            FULLSCREEN = strcmp(argv[i], "true") == 0;
+            FULLSCREEN = strcmp(argv[++i], "true") == 0;
+        } else if (strcmp(argv[i], "-t") == 0 && argc > i + 1) {
+            strcpy(THEME, argv[++i]);
+        } else if (strcmp(argv[i], "-c") == 0 && argc > i + 3) {
+            int r = atoi(argv[++i]);
+            int g = atoi(argv[++i]);
+            int b = atoi(argv[++i]);
+            if (r >= 0 && g >= 0 && b >= 0
+                && r <= 255 && g <= 255 && b <= 255) {
+                SDL_Color new_color = {r, g, b};
+                TEXT_COLOR = new_color;
+            }
         }
     }
     return 0;
 }
 
 int main(int argc, char *argv[]) {
-    if (choose_arguments(argc, argv) != 0) {
+    if (prepare_arguments(argc, argv) != 0) {
         return 0;
     }
 
-    printf("Pong!!\n");
     printf("Add '--h' in arguments for getting help\n");
 
     if (!init_game()) {

@@ -9,6 +9,6 @@ add_executable(pong src/pong.c include/pong.h
         include/util/events.h src/util/events.c
         include/util/loader.h src/util/loader.c
         src/util/render.c include/util/render.h
-        include/util/common.h)
+        include/util/common.h src/util/common.c)
 
 target_link_libraries(pong SDL2 SDL2_ttf SDL2_image SDL2_mixer)

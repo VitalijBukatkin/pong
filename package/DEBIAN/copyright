@@ -1,5 +1,11 @@
-BSD 3-Clause License
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: pong
+Upstream-Contact: Vitalij Bukatkin <vitaliy.bukatkin@gmail.com>
+Source: https://github.com/WitalijBukatkin/Pong
 
+Files: *
+Copyright: 2020 Vitalij Bukatkin <vitaliy.bukatkin@gmail.com>
+License: BSD
 Copyright (c) 2020, Witalij Bukatkin
 All rights reserved.
 
@@ -27,3 +33,4 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+'/usr/share/common-licenses/BSD'.

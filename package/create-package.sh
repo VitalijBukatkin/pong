@@ -11,7 +11,6 @@ mkdir -p ${PACKAGE_NAME}/usr/local/bin &&
 mkdir -p ${PACKAGE_NAME}/usr/share/applications &&
 
 cp -r ../package/DEBIAN ${PACKAGE_NAME}/ &&
-cp ../LICENSE ${PACKAGE_NAME}/DEBIAN/copyright
 cp pong ${PACKAGE_NAME}/usr/local/bin/ &&
 cp -r ../share ${PACKAGE_NAME}/usr/local/ &&
 cp ../package/pong.desktop ${PACKAGE_NAME}/usr/share/applications/ &&
