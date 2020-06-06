@@ -5,7 +5,7 @@
 - SDL2
 
 ## Require
-- gcc
+- cc
 - meson
 - libsdl2-dev
 - libsdl2-ttf-dev
