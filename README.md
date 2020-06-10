@@ -20,4 +20,4 @@
 or simply build project, execute `ninja -C build`
 5. You can install made package, execute `dpkg -i build/pong*.deb`
 
-### For game you must have Gamepad with analog control
+### Controls with keyboard or gamepad
