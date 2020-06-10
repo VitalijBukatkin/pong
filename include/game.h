@@ -23,6 +23,13 @@ typedef struct {
     int speed;
 } Player;
 
+enum FallType {
+    Game_FALLPLAYER1,
+    Game_FALLPLAYER2,
+    Game_CAUGHT,
+    Game_OUTOF
+};
+
 extern int BALL_SPEED;
 
 void Game_Loop(SDL_Renderer *ren);

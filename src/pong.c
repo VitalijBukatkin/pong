@@ -264,10 +264,10 @@ int main(int argc, char *argv[]) {
         show_start_window();
         while (SDL_PollEvent(&event) != 0) {
             EventType type = Events_GetEventType(event);
-            if (type == BUTTON_ESC || type == QUIT) {
+            if (type == Events_BUTTON_ESC || type == Events_QUIT) {
                 run = false;
                 break;
-            } else if (type == BUTTON_START || type == BUTTON_SPACE) {
+            } else if (type == Events_BUTTON_START || type == Events_BUTTON_SPACE) {
                 Game_Loop(ren);
                 break;
             }

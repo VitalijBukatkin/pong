@@ -34,46 +34,46 @@ void Diagnostics_Loop(SDL_Joystick *joystick) {
     while (run) {
         while (SDL_PollEvent(&event) != 0) {
             EventType type = Events_GetEventType(event);
-            if (type == BUTTON_ESC || type == QUIT) {
+            if (type == Events_BUTTON_ESC || type == Events_QUIT) {
                 run = false;
                 printf("EXIT\n");
                 break;
             }
             switch (type) {
                 // Joystick
-                case BUTTON_START:
-                    printf("BUTTON_START\n");
+                case Events_BUTTON_START:
+                    printf("Events_BUTTON_START\n");
                     break;
-                case LEFT_STICK_MOVE_UP:
-                    printf("LEFT_STICK_MOVE_UP\n");
+                case Events_LEFT_STICK_MOVE_UP:
+                    printf("Events_LEFT_STICK_MOVE_UP\n");
                     break;
-                case LEFT_STICK_MOVE_DOWN:
-                    printf("LEFT_STICK_MOVE_DOWN\n");
+                case Events_LEFT_STICK_MOVE_DOWN:
+                    printf("Events_LEFT_STICK_MOVE_DOWN\n");
                     break;
-                case RIGHT_STICK_MOVE_UP:
-                    printf("RIGHT_STICK_MOVE_UP\n");
+                case Events_RIGHT_STICK_MOVE_UP:
+                    printf("Events_RIGHT_STICK_MOVE_UP\n");
                     break;
-                case RIGHT_STICK_MOVE_DOWN:
-                    printf("RIGHT_STICK_MOVE_DOWN\n");
+                case Events_RIGHT_STICK_MOVE_DOWN:
+                    printf("Events_RIGHT_STICK_MOVE_DOWN\n");
                     break;
                     // Keyboard
-                case BUTTON_SPACE:
-                    printf("BUTTON_SPACE\n");
+                case Events_BUTTON_SPACE:
+                    printf("Events_BUTTON_SPACE\n");
                     break;
-                case BUTTON_W:
-                    printf("BUTTON_W\n");
+                case Events_BUTTON_W:
+                    printf("Events_BUTTON_W\n");
                     break;
-                case BUTTON_S:
-                    printf("BUTTON_S\n");
+                case Events_BUTTON_S:
+                    printf("Events_BUTTON_S\n");
                     break;
-                case BUTTON_UP:
-                    printf("BUTTON_UP\n");
+                case Events_BUTTON_UP:
+                    printf("Events_BUTTON_UP\n");
                     break;
-                case BUTTON_DOWN:
-                    printf("BUTTON_DOWN\n");
+                case Events_BUTTON_DOWN:
+                    printf("Events_BUTTON_DOWN\n");
                     break;
-                case BUTTON_ANY:
-                    printf("BUTTON_ANY\n");
+                case Events_BUTTON_ANY:
+                    printf("Events_BUTTON_ANY\n");
                     break;
                 default:
                     break;

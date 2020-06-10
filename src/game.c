@@ -37,24 +37,19 @@ void ball_move(Ball *ball, int checkFall) {
 
 /**
  * Check falls ball for players
- * @return
- * 0 - fall player 1
- * 1 - fall player 2
- * 2 - caught
- * 3 - out of
  */
 int check_fall(Ball ball, Player pl1, Player pl2) {
     if (ball.x + ball.speed_x <= pl1.x + pl1.w) {
         if (ball.y < pl1.y || ball.y > pl1.y + pl1.h)
-            return 0;
-        return 2;
+            return Game_FALLPLAYER1;
+        return Game_CAUGHT;
     }
     if (ball.x + ball.w + ball.speed_x > pl2.x) {
         if (ball.y < pl2.y || ball.y > pl2.y + pl2.h)
-            return 1;
-        return 2;
+            return Game_FALLPLAYER2;
+        return Game_CAUGHT;
     }
-    return 3;
+    return Game_OUTOF;
 }
 
 /**
@@ -78,26 +73,26 @@ void start_new_game(Ball *ball, Player *pl1, Player *pl2) {
  */
 void player_move(EventType eventType, Player *pl1, Player *pl2) {
     switch (eventType) {
-        case LEFT_STICK_MOVE_UP:
-        case BUTTON_W:
+        case Events_LEFT_STICK_MOVE_UP:
+        case Events_BUTTON_W:
             if (pl1->y - pl1->speed >= 0) {
                 pl1->y -= pl1->speed;
             }
             break;
-        case LEFT_STICK_MOVE_DOWN:
-        case BUTTON_S:
+        case Events_LEFT_STICK_MOVE_DOWN:
+        case Events_BUTTON_S:
             if (pl1->y + pl1->speed <= SCREEN_HEIGHT - pl1->h) {
                 pl1->y += pl1->speed;
             }
             break;
-        case RIGHT_STICK_MOVE_UP:
-        case BUTTON_UP:
+        case Events_RIGHT_STICK_MOVE_UP:
+        case Events_BUTTON_UP:
             if (pl2->y - pl2->speed >= 0) {
                 pl2->y -= pl2->speed;
             }
             break;
-        case RIGHT_STICK_MOVE_DOWN:
-        case BUTTON_DOWN:
+        case Events_RIGHT_STICK_MOVE_DOWN:
+        case Events_BUTTON_DOWN:
             if (pl2->y + pl2->speed <= SCREEN_HEIGHT - pl2->h) {
                 pl2->y += pl2->speed;
             }
@@ -164,7 +159,7 @@ void Game_Loop(SDL_Renderer *ren) {
     while (run) {
         while (SDL_PollEvent(&e) != 0) {
             EventType type = Events_GetEventType(e);
-            if (type == BUTTON_ESC || type == QUIT) {
+            if (type == Events_BUTTON_ESC || type == Events_QUIT) {
                 run = false;
                 break;
             }
@@ -189,7 +184,7 @@ void Game_Loop(SDL_Renderer *ren) {
 
         render_game(ren, ball, player1, player2);
 
-        if (ball.active == true) {
+        if (ball.active) {
             ball.active = false;
         }
 
