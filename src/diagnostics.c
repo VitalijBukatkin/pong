@@ -19,10 +19,14 @@ void print_joystick_info(SDL_Joystick *joystick) {
 
 void Diagnostics_Loop(SDL_Joystick *joystick) {
     printf(" ---- Diagnostics ----\n");
-    print_joystick_info(joystick);
+
+    if (joystick != NULL) {
+        print_joystick_info(joystick);
+    }
 
     printf(" ---- Press any key ----\n");
     printf(" ---- Ctrl-C for EXIT ----\n");
+    printf(" ---- Or ESC ----\n");
 
     bool run = true;
     SDL_Event event;
@@ -36,14 +40,9 @@ void Diagnostics_Loop(SDL_Joystick *joystick) {
                 break;
             }
             switch (type) {
+                // Joystick
                 case BUTTON_START:
                     printf("BUTTON_START\n");
-                    break;
-                case BUTTON_SPACE:
-                    printf("BUTTON_SPACE\n");
-                    break;
-                case BUTTON_ANY:
-                    printf("BUTTON_ANY\n");
                     break;
                 case LEFT_STICK_MOVE_UP:
                     printf("LEFT_STICK_MOVE_UP\n");
@@ -57,10 +56,28 @@ void Diagnostics_Loop(SDL_Joystick *joystick) {
                 case RIGHT_STICK_MOVE_DOWN:
                     printf("RIGHT_STICK_MOVE_DOWN\n");
                     break;
+                    // Keyboard
+                case BUTTON_SPACE:
+                    printf("BUTTON_SPACE\n");
+                    break;
+                case BUTTON_W:
+                    printf("BUTTON_W\n");
+                    break;
+                case BUTTON_S:
+                    printf("BUTTON_S\n");
+                    break;
+                case BUTTON_UP:
+                    printf("BUTTON_UP\n");
+                    break;
+                case BUTTON_DOWN:
+                    printf("BUTTON_DOWN\n");
+                    break;
+                case BUTTON_ANY:
+                    printf("BUTTON_ANY\n");
+                    break;
                 default:
                     break;
             }
         }
     }
-
 }

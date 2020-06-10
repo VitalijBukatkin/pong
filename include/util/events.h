@@ -10,10 +10,16 @@
 typedef enum {
     UNDEFINED,
     QUIT,
-    BUTTON_START,
+    // Keyboard
     BUTTON_SPACE,
-    BUTTON_ANY,
     BUTTON_ESC,
+    BUTTON_W,
+    BUTTON_S,
+    BUTTON_UP,
+    BUTTON_DOWN,
+    BUTTON_ANY,
+    // Joystick
+    BUTTON_START,
     LEFT_STICK_MOVE_UP,
     LEFT_STICK_MOVE_DOWN,
     RIGHT_STICK_MOVE_UP,

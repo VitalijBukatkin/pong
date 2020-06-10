@@ -120,13 +120,6 @@ bool init_game() {
         return false;
     }
 
-    if (!init_joystick()) {
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-                                 "Can't load!",
-                                 "Init Joystick is fail. See output", NULL);
-        return false;
-    }
-
     if (!init_resources()) {
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
                                  "Can't load!",
@@ -134,6 +127,7 @@ bool init_game() {
         return false;
     }
 
+    init_joystick();
     return true;
 }
 
@@ -160,7 +154,7 @@ void show_start_window() {
     char *text[] = {
             "Pong!!",
             "For control use sticks gamepad",
-            "Press START for next...",
+            "Press START or SPACE for next...",
             "Or ESC for EXIT.",
             " 2020"};
 
@@ -212,7 +206,8 @@ void print_help() {
 int prepare_arguments(int argc, char **argv) {
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "--d") == 0) {
-            if (init_libraries() && init_joystick()) {
+            if (init_libraries()) {
+                init_joystick();
                 Diagnostics_Loop(joystick);
             }
             return 1;
@@ -272,7 +267,7 @@ int main(int argc, char *argv[]) {
             if (type == BUTTON_ESC || type == QUIT) {
                 run = false;
                 break;
-            } else if (type == BUTTON_START) {
+            } else if (type == BUTTON_START || type == BUTTON_SPACE) {
                 Game_Loop(ren);
                 break;
             }

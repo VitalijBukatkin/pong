@@ -29,6 +29,14 @@ EventType Events_GetEventType(SDL_Event event) {
             return BUTTON_SPACE;
         if (event.key.keysym.sym == SDLK_ESCAPE)
             return BUTTON_ESC;
+        if (event.key.keysym.sym == SDLK_w)
+            return BUTTON_W;
+        if (event.key.keysym.sym == SDLK_s)
+            return BUTTON_S;
+        if (event.key.keysym.sym == SDLK_UP)
+            return BUTTON_UP;
+        if (event.key.keysym.sym == SDLK_DOWN)
+            return BUTTON_DOWN;
         return BUTTON_ANY;
     }
     return UNDEFINED;

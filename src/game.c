@@ -79,21 +79,25 @@ void start_new_game(Ball *ball, Player *pl1, Player *pl2) {
 void player_move(EventType eventType, Player *pl1, Player *pl2) {
     switch (eventType) {
         case LEFT_STICK_MOVE_UP:
+        case BUTTON_W:
             if (pl1->y - pl1->speed >= 0) {
                 pl1->y -= pl1->speed;
             }
             break;
         case LEFT_STICK_MOVE_DOWN:
+        case BUTTON_S:
             if (pl1->y + pl1->speed <= SCREEN_HEIGHT - pl1->h) {
                 pl1->y += pl1->speed;
             }
             break;
         case RIGHT_STICK_MOVE_UP:
+        case BUTTON_UP:
             if (pl2->y - pl2->speed >= 0) {
                 pl2->y -= pl2->speed;
             }
             break;
         case RIGHT_STICK_MOVE_DOWN:
+        case BUTTON_DOWN:
             if (pl2->y + pl2->speed <= SCREEN_HEIGHT - pl2->h) {
                 pl2->y += pl2->speed;
             }
