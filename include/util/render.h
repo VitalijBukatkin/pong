@@ -11,7 +11,7 @@
 /**
  * Apply layer on screen
  */
-void Render_ApplyTexture(SDL_Renderer *ren, int x, int y, SDL_Texture *tex);
+#define Render_ApplyTexture(ren, dstrect, srcrect, tex) SDL_RenderCopy(ren, tex, dstrect, srcrect);
 
 /**
  * Apply text on screen

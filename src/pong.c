@@ -9,9 +9,16 @@
 #include "../include/util/loader.h"
 #include "../include/util/common.h"
 
+int SCREEN_WIDTH = SCREEN_WIDTH_CONST;
+int SCREEN_HEIGHT = SCREEN_HEIGHT_CONST;
+int BALL_SPEED = BALL_SPEED_CONST;
+SDL_Color TEXT_COLOR = TEXT_COLOR_CONST;
+
 bool FULLSCREEN = true;
 char RESOURCES_PATH[150] = RESOURCES_PATH_CONST;
-char THEME[100] = "space";
+char THEME[20] = THEME_CONST;
+
+char TEXT_BUFF[150];
 
 SDL_Window *win;
 SDL_Renderer *ren;
@@ -22,13 +29,64 @@ TexturesPack textures;
 FontsPack fonts;
 SoundsPack sounds;
 
+void show_start_window() {
+    SDL_RenderClear(ren);
+
+    Render_ApplyTexture(ren, 0, 0, textures.background);
+
+    char *text[] = {
+            "Pong!!",
+            "For control use sticks gamepad",
+            "Press START or SPACE for next...",
+            "Or ESC for EXIT.",
+            " 2020"};
+
+    for (int i = 0; i < 4; i++) {
+        Render_ApplyTextWithColor(ren, fonts.main, text[i],
+                                  (SCREEN_WIDTH / 2) - 200,
+                                  (SCREEN_HEIGHT - 80) / 2 + i * 30, TEXT_COLOR);
+    }
+
+    SDL_RenderPresent(ren);
+}
+
+void show_end_window() {
+    SDL_RenderClear(ren);
+
+    Render_ApplyTexture(ren, 0, 0, textures.background);
+
+    char *text[] = {
+            "Thank you!",
+            "Vitalij Bukatkin",
+            "(t.me/wbkid, vitaliy.bukatkin@gmail.com)",
+            " 2020"};
+
+    for (int i = 0; i < 3; i++) {
+        Render_ApplyTextWithColor(ren, fonts.main, text[i],
+                                  (SCREEN_WIDTH / 2) - 200,
+                                  (SCREEN_HEIGHT - 70) / 2 + i * 30, TEXT_COLOR);
+    }
+
+    SDL_RenderPresent(ren);
+}
+
+void destroy_game() {
+    Loader_UnloadAudio(sounds.beep);
+    Loader_UnloadTexture(textures.background);
+    Loader_UnloadTexture(textures.ball);
+    Loader_UnloadFont(fonts.main);
+    Loader_UnloadHaptic(haptic);
+    Loader_UnloadJoystick(joystick);
+    SDL_DestroyRenderer(ren);
+    SDL_DestroyWindow(win);
+    SDL_Quit();
+}
+
 bool init_resources() {
     textures.background = Loader_LoadTexture(ren,
-                                             Common_StringConcat(text_buff, RESOURCES_PATH, "/images/background.png"));
-    textures.ball = Loader_LoadTexture(ren, Common_StringConcat(text_buff, RESOURCES_PATH, "/images/ball.png"));
-    textures.ball_active = Loader_LoadTexture(ren, Common_StringConcat(text_buff, RESOURCES_PATH,
-                                                                       "/images/ball-active.png"));
-    textures.deck = Loader_LoadTexture(ren, Common_StringConcat(text_buff, RESOURCES_PATH, "/images/deck.png"));
+                                             Common_StringConcat(TEXT_BUFF, RESOURCES_PATH, "/images/background.png"));
+    textures.ball = Loader_LoadTexture(ren, Common_StringConcat(TEXT_BUFF, RESOURCES_PATH, "/images/ball.png"));
+    textures.deck = Loader_LoadTexture(ren, Common_StringConcat(TEXT_BUFF, RESOURCES_PATH, "/images/deck.png"));
     if (textures.background == NULL ||
         textures.ball == NULL ||
         textures.deck == NULL) {
@@ -36,13 +94,13 @@ bool init_resources() {
         return false;
     }
 
-    sounds.beep = Loader_LoadAudio(Common_StringConcat(text_buff, RESOURCES_PATH, "/sounds/beep.wav"));
+    sounds.beep = Loader_LoadAudio(Common_StringConcat(TEXT_BUFF, RESOURCES_PATH, "/sounds/beep.wav"));
     if (sounds.beep == NULL) {
         printf("Loader_LoadAudio: %s\n", SDL_GetError());
         return false;
     }
 
-    fonts.main = Loader_LoadFont(Common_StringConcat(text_buff, RESOURCES_PATH, "/fonts/Fonts-Online.ttf"), 24);
+    fonts.main = Loader_LoadFont(Common_StringConcat(TEXT_BUFF, RESOURCES_PATH, "/fonts/Fonts-Online.ttf"), 24);
     if (fonts.main == NULL) {
         printf("Loader_LoadFont: %s\n", SDL_GetError());
         return false;
@@ -131,62 +189,6 @@ bool init_game() {
     return true;
 }
 
-/**
- * Free memory
- */
-void destroy_game() {
-    Loader_UnloadAudio(sounds.beep);
-    Loader_UnloadTexture(textures.background);
-    Loader_UnloadTexture(textures.ball);
-    Loader_UnloadFont(fonts.main);
-    Loader_UnloadHaptic(haptic);
-    Loader_UnloadJoystick(joystick);
-    SDL_DestroyRenderer(ren);
-    SDL_DestroyWindow(win);
-    SDL_Quit();
-}
-
-void show_start_window() {
-    SDL_RenderClear(ren);
-
-    Render_ApplyTexture(ren, 0, 0, textures.background);
-
-    char *text[] = {
-            "Pong!!",
-            "For control use sticks gamepad",
-            "Press START or SPACE for next...",
-            "Or ESC for EXIT.",
-            " 2020"};
-
-    for (int i = 0; i < 4; i++) {
-        Render_ApplyTextWithColor(ren, fonts.main, text[i],
-                                  (SCREEN_WIDTH / 2) - 200,
-                                  (SCREEN_HEIGHT - 80) / 2 + i * 30, TEXT_COLOR);
-    }
-
-    SDL_RenderPresent(ren);
-}
-
-void show_end_window() {
-    SDL_RenderClear(ren);
-
-    Render_ApplyTexture(ren, 0, 0, textures.background);
-
-    char *text[] = {
-            "Thank you!",
-            "Developer: Vitalij Bukatkin",
-            "(t.me/wbkid, vitaliy.bukatkin@gmail.com)",
-            " 2020"};
-
-    for (int i = 0; i < 3; i++) {
-        Render_ApplyTextWithColor(ren, fonts.main, text[i],
-                                  (SCREEN_WIDTH / 2) - 200,
-                                  (SCREEN_HEIGHT - 70) / 2 + i * 30, TEXT_COLOR);
-    }
-
-    SDL_RenderPresent(ren);
-}
-
 void print_help() {
     printf("Pong!!\n"
            " Help: \n"
@@ -198,7 +200,7 @@ void print_help() {
            " -s 35 - ball speed\n"
            " -t space - set game theme\n"
            " -c 255 255 255 - set text color (0 - 255)\n"
-           " Developer: Vitalij Bukatkin\n"
+           " Vitalij Bukatkin\n"
            " (t.me/wbkid, vitaliy.bukatkin@gmail.com)\n"
            " 2020\n");
 }
@@ -218,6 +220,8 @@ int prepare_arguments(int argc, char **argv) {
             int width = atoi(argv[++i]);
             if (width > 0)
                 SCREEN_WIDTH = width;
+            else
+                printf("-w is out of range, ignore\n");
         } else if (strcmp(argv[i], "-h") == 0 && argc > i + 1) {
             int height = atoi(argv[++i]);
             if (height > 0)
@@ -226,6 +230,8 @@ int prepare_arguments(int argc, char **argv) {
             int speed = atoi(argv[++i]);
             if (speed > 0)
                 BALL_SPEED = speed;
+            else
+                printf("-s is out of range, ignore\n");
         } else if (strcmp(argv[i], "-f") == 0 && argc > i + 1) {
             FULLSCREEN = strcmp(argv[++i], "true") == 0;
         } else if (strcmp(argv[i], "-t") == 0 && argc > i + 1) {
@@ -238,7 +244,8 @@ int prepare_arguments(int argc, char **argv) {
                 && r <= 255 && g <= 255 && b <= 255) {
                 SDL_Color new_color = {r, g, b};
                 TEXT_COLOR = new_color;
-            }
+            } else
+                printf("-c is out of range, ignore\n");
         }
     }
     return 0;
@@ -263,7 +270,7 @@ int main(int argc, char *argv[]) {
     while (run) {
         show_start_window();
         while (SDL_PollEvent(&event) != 0) {
-            EventType type = Events_GetEventType(event);
+            Events_EventType type = Events_GetEventType(event);
             if (type == Events_BUTTON_ESC || type == Events_QUIT) {
                 run = false;
                 break;

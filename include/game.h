@@ -9,26 +9,24 @@
 
 typedef struct {
     SDL_Texture *texture;
-    int x, y;
-    int w, h;
+    SDL_Rect pos;
     int speed_x, speed_y;
     bool active;
-} Ball;
+} Game_Ball;
 
 typedef struct {
     SDL_Texture *texture;
-    int x, y;
-    int w, h;
+    SDL_Rect pos;
     int score;
     int speed;
-} Player;
+} Game_Player;
 
-enum FallType {
-    Game_FALLPLAYER1,
-    Game_FALLPLAYER2,
-    Game_CAUGHT,
-    Game_OUTOF
-};
+typedef enum {
+    GAME_FALL_PLAYER_1,
+    GAME_FALL_PLAYER_2,
+    GAME_CAUGHT,
+    GAME_OUT_OF
+} Game_FallType;
 
 extern int BALL_SPEED;
 

@@ -33,7 +33,7 @@ void Diagnostics_Loop(SDL_Joystick *joystick) {
 
     while (run) {
         while (SDL_PollEvent(&event) != 0) {
-            EventType type = Events_GetEventType(event);
+            Events_EventType type = Events_GetEventType(event);
             if (type == Events_BUTTON_ESC || type == Events_QUIT) {
                 run = false;
                 printf("EXIT\n");

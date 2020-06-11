@@ -24,8 +24,14 @@ typedef enum {
     Events_LEFT_STICK_MOVE_DOWN,
     Events_RIGHT_STICK_MOVE_UP,
     Events_RIGHT_STICK_MOVE_DOWN,
-} EventType;
+} Events_EventType;
 
-EventType Events_GetEventType(SDL_Event event);
+
+/**
+ * get Events_EventType from keyboards and joystick
+ * @param event - SDL_Event
+ * @return - result
+ */
+Events_EventType Events_GetEventType(SDL_Event event);
 
 #endif //PONG_EVENTS_H

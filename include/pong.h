@@ -16,21 +16,31 @@
 #define GAME_TITLE "Pong"
 #define MAX_SCORE 10
 
+//activate for local start
+//#define DEBUG
+
 #ifdef DEBUG
-#define RESOURCES_PATH_CONST "../share/pong-0.1/themes/"
+#define RESOURCES_PATH_CONST "../themes/"
 #else
 #define RESOURCES_PATH_CONST "/usr/local/share/pong-0.1/themes/"
 #endif
 
+#define SCREEN_WIDTH_CONST 1280
+#define SCREEN_HEIGHT_CONST 800
+#define BALL_SPEED_CONST 35
+#define TEXT_COLOR_CONST {255, 255, 255}
+
+#define THEME_CONST "space"
+
 #define HAPTIC_STRENGTH 0.7f
 #define HAPTIC_LONG 500
 
-static int SCREEN_WIDTH = 1280;
-static int SCREEN_HEIGHT = 800;
-static int BALL_SPEED = 35;
-static SDL_Color TEXT_COLOR = {255, 255, 255};
+extern int SCREEN_WIDTH;
+extern int SCREEN_HEIGHT;
+extern int BALL_SPEED;
+extern SDL_Color TEXT_COLOR;
 
-static char text_buff[100];
+extern char TEXT_BUFF[150];
 
 extern SDL_Joystick *joystick;
 extern SDL_Haptic *haptic;
@@ -38,7 +48,6 @@ extern SDL_Haptic *haptic;
 typedef struct {
     SDL_Texture *background;
     SDL_Texture *ball;
-    SDL_Texture *ball_active;
     SDL_Texture *deck;
 } TexturesPack;
 

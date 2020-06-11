@@ -5,7 +5,7 @@
 #include <SDL2/SDL_events.h>
 #include "../../include/util/events.h"
 
-EventType Events_GetEventType(SDL_Event event) {
+Events_EventType Events_GetEventType(SDL_Event event) {
     if (event.type == SDL_JOYAXISMOTION) {
         if (event.jaxis.axis == 4) {
             if (event.jaxis.value > 0)
