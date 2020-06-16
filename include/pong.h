@@ -40,8 +40,6 @@ extern int SCREEN_HEIGHT;
 extern int BALL_SPEED;
 extern SDL_Color TEXT_COLOR;
 
-extern char TEXT_BUFF[150];
-
 extern SDL_Joystick *joystick;
 extern SDL_Haptic *haptic;
 

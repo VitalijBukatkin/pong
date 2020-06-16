@@ -18,8 +18,6 @@ bool FULLSCREEN = true;
 char RESOURCES_PATH[150] = RESOURCES_PATH_CONST;
 char THEME[20] = THEME_CONST;
 
-char TEXT_BUFF[150];
-
 SDL_Window *win;
 SDL_Renderer *ren;
 SDL_Joystick *joystick;
@@ -83,10 +81,12 @@ void destroy_game() {
 }
 
 bool init_resources() {
+    char texture_path_buff[150];
     textures.background = Loader_LoadTexture(ren,
-                                             Common_StringConcat(TEXT_BUFF, RESOURCES_PATH, "/images/background.png"));
-    textures.ball = Loader_LoadTexture(ren, Common_StringConcat(TEXT_BUFF, RESOURCES_PATH, "/images/ball.png"));
-    textures.deck = Loader_LoadTexture(ren, Common_StringConcat(TEXT_BUFF, RESOURCES_PATH, "/images/deck.png"));
+                                             Common_StringConcat(texture_path_buff, RESOURCES_PATH,
+                                                                 "/images/background.png"));
+    textures.ball = Loader_LoadTexture(ren, Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/images/ball.png"));
+    textures.deck = Loader_LoadTexture(ren, Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/images/deck.png"));
     if (textures.background == NULL ||
         textures.ball == NULL ||
         textures.deck == NULL) {
@@ -94,13 +94,13 @@ bool init_resources() {
         return false;
     }
 
-    sounds.beep = Loader_LoadAudio(Common_StringConcat(TEXT_BUFF, RESOURCES_PATH, "/sounds/beep.wav"));
+    sounds.beep = Loader_LoadAudio(Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/sounds/beep.wav"));
     if (sounds.beep == NULL) {
         printf("Loader_LoadAudio: %s\n", SDL_GetError());
         return false;
     }
 
-    fonts.main = Loader_LoadFont(Common_StringConcat(TEXT_BUFF, RESOURCES_PATH, "/fonts/Fonts-Online.ttf"), 24);
+    fonts.main = Loader_LoadFont(Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/fonts/Fonts-Online.ttf"), 24);
     if (fonts.main == NULL) {
         printf("Loader_LoadFont: %s\n", SDL_GetError());
         return false;
@@ -205,17 +205,17 @@ void print_help() {
            " 2020\n");
 }
 
-int prepare_arguments(int argc, char **argv) {
+bool prepare_arguments(int argc, char **argv) {
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "--d") == 0) {
             if (init_libraries()) {
                 init_joystick();
                 Diagnostics_Loop(joystick);
             }
-            return 1;
+            return false;
         } else if (strcmp(argv[i], "--h") == 0) {
             print_help();
-            return 1;
+            return false;
         } else if (strcmp(argv[i], "-w") == 0 && argc > i + 1) {
             int width = atoi(argv[++i]);
             if (width > 0)
@@ -226,6 +226,8 @@ int prepare_arguments(int argc, char **argv) {
             int height = atoi(argv[++i]);
             if (height > 0)
                 SCREEN_HEIGHT = height;
+            else
+                printf("-h is out of range, ignore\n");
         } else if (strcmp(argv[i], "-s") == 0 && argc > i + 1) {
             int speed = atoi(argv[++i]);
             if (speed > 0)
@@ -248,12 +250,12 @@ int prepare_arguments(int argc, char **argv) {
                 printf("-c is out of range, ignore\n");
         }
     }
-    return 0;
+    return true;
 }
 
-int main(int argc, char *argv[]) {
-    if (prepare_arguments(argc, argv) != 0) {
-        return 0;
+bool main(int argc, char *argv[]) {
+    if (!prepare_arguments(argc, argv)) {
+        return true;
     }
 
     printf("Add '--h' in arguments for getting help\n");
@@ -261,7 +263,7 @@ int main(int argc, char *argv[]) {
     if (!init_game()) {
         printf("Game is not init!\n");
         destroy_game();
-        return -1;
+        return false;
     }
 
     bool run = true;

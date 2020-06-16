@@ -6,6 +6,8 @@
 #include "../include/game.h"
 #include "../include/util/common.h"
 
+char TEXT_BUFF[50];
+
 /**
  * Render game on screen
  */
