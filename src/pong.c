@@ -253,17 +253,16 @@ bool prepare_arguments(int argc, char **argv) {
     return true;
 }
 
-bool main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
     if (!prepare_arguments(argc, argv)) {
-        return true;
+        return 0;
     }
-
     printf("Add '--h' in arguments for getting help\n");
 
     if (!init_game()) {
         printf("Game is not init!\n");
         destroy_game();
-        return false;
+        return -1;
     }
 
     bool run = true;
@@ -284,6 +283,6 @@ bool main(int argc, char *argv[]) {
     }
     show_end_window();
     SDL_Delay(1000);
-
     destroy_game();
+    return 0;
 }
