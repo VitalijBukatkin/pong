@@ -14,7 +14,7 @@ char TEXT_BUFF[50];
 void render_game(SDL_Renderer *ren, Game_Ball ball, Game_Player pl1, Game_Player pl2) {
     SDL_RenderClear(ren);
 
-    Render_ApplyTexture(ren, NULL, NULL, textures.background);
+    Render_ApplyTexture(ren, NULL, NULL, textures.board);
     Render_ApplyTexture(ren, NULL, &pl1.pos, pl1.texture);
     Render_ApplyTexture(ren, NULL, &pl2.pos, pl2.texture);
 
@@ -38,7 +38,7 @@ void render_game(SDL_Renderer *ren, Game_Ball ball, Game_Player pl1, Game_Player
 void render_end_game(SDL_Renderer *ren, Game_Player pl1, Game_Player pl2) {
     SDL_RenderClear(ren);
 
-    Render_ApplyTexture(ren, NULL, NULL, textures.background);
+    Render_ApplyTexture(ren, NULL, NULL, textures.board);
 
     char *winner;
     if (pl1.score < pl2.score)
@@ -57,8 +57,8 @@ void render_end_game(SDL_Renderer *ren, Game_Player pl1, Game_Player pl2) {
  * 1. Check borders for ball and revert direction
  * 2. Move ball
  */
-void ball_move(Game_Ball *ball, Game_FallType fallType) {
-    if (fallType == GAME_CAUGHT) {
+void ball_move(Game_Ball *ball, Game_PlayerStatus playerStatus) {
+    if (playerStatus == GAME_CAUGHT) {
         ball->speed_x = -ball->speed_x;
     } else if (ball->pos.y + ball->pos.h + ball->speed_y > SCREEN_HEIGHT
                || ball->pos.y + ball->speed_y < 0) {
@@ -72,7 +72,7 @@ void ball_move(Game_Ball *ball, Game_FallType fallType) {
 /**
  * Check falls ball for players
  */
-int check_fall(Game_Ball ball, Game_Player pl1, Game_Player pl2) {
+Game_PlayerStatus check_player_status(Game_Ball ball, Game_Player pl1, Game_Player pl2) {
     if (ball.pos.x + ball.speed_x <= pl1.pos.x + pl1.pos.w) {
         if (ball.pos.y < pl1.pos.y || ball.pos.y > pl1.pos.y + pl1.pos.h)
             return GAME_FALL_PLAYER_1;
@@ -144,12 +144,12 @@ void init_game_elements(Game_Ball *ball, Game_Player *pl1, Game_Player *pl2) {
  */
 void start_new_game(Game_Ball *ball, Game_Player *pl1, Game_Player *pl2) {
     ball->texture = textures.ball;
-    pl1->texture = textures.deck;
-    pl2->texture = textures.deck;
+    pl1->texture = textures.player;
+    pl2->texture = textures.player;
 
     SDL_QueryTexture(textures.ball, NULL, NULL, &ball->pos.w, &ball->pos.h);
-    SDL_QueryTexture(textures.deck, NULL, NULL, &pl1->pos.w, &pl1->pos.h);
-    SDL_QueryTexture(textures.deck, NULL, NULL, &pl2->pos.w, &pl2->pos.h);
+    SDL_QueryTexture(textures.player, NULL, NULL, &pl1->pos.w, &pl1->pos.h);
+    SDL_QueryTexture(textures.player, NULL, NULL, &pl2->pos.w, &pl2->pos.h);
 
     //cut off half the texture
     ball->pos.w -= ball->pos.w / 2;
@@ -182,7 +182,7 @@ void Game_Loop(SDL_Renderer *ren) {
             player_move(type, &player1, &player2);
         }
 
-        Game_FallType checkFall = check_fall(ball, player1, player2);
+        Game_PlayerStatus checkFall = check_player_status(ball, player1, player2);
         if (checkFall == GAME_FALL_PLAYER_1 || checkFall == GAME_FALL_PLAYER_2) {
             if (checkFall)
                 player1.score++;
@@ -193,6 +193,7 @@ void Game_Loop(SDL_Renderer *ren) {
                 break;
             }
             init_game_elements(&ball, &player1, &player2);
+            Common_PlaySound(sounds.fall);
             Common_PlayRumble(haptic);
         } else {
             ball_move(&ball, checkFall);
@@ -205,7 +206,7 @@ void Game_Loop(SDL_Renderer *ren) {
         }
 
         if (checkFall == 2) {
-            Common_PlaySound(sounds.beep);
+            Common_PlaySound(sounds.caught);
             ball.active = true;
         }
         SDL_Delay(100);

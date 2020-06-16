@@ -8,7 +8,7 @@
 /**
  * play sound on speaker
  */
-#define Common_PlaySound(sound) Mix_PlayChannel(-1, sound, 0);
+#define Common_PlaySound(sound) Mix_PlayChannel(-1, sound, 0)
 
 /**
  * play rumble on joystick if exist

@@ -30,7 +30,7 @@ SoundsPack sounds;
 void show_start_window() {
     SDL_RenderClear(ren);
 
-    Render_ApplyTexture(ren, 0, 0, textures.background);
+    Render_ApplyTexture(ren, 0, 0, textures.board);
 
     char *text[] = {
             "Pong!!",
@@ -51,7 +51,7 @@ void show_start_window() {
 void show_end_window() {
     SDL_RenderClear(ren);
 
-    Render_ApplyTexture(ren, 0, 0, textures.background);
+    Render_ApplyTexture(ren, 0, 0, textures.board);
 
     char *text[] = {
             "Thank you!",
@@ -69,8 +69,8 @@ void show_end_window() {
 }
 
 void destroy_game() {
-    Loader_UnloadAudio(sounds.beep);
-    Loader_UnloadTexture(textures.background);
+    Loader_UnloadAudio(sounds.caught);
+    Loader_UnloadTexture(textures.board);
     Loader_UnloadTexture(textures.ball);
     Loader_UnloadFont(fonts.main);
     Loader_UnloadHaptic(haptic);
@@ -82,20 +82,23 @@ void destroy_game() {
 
 bool init_resources() {
     char texture_path_buff[150];
-    textures.background = Loader_LoadTexture(ren,
-                                             Common_StringConcat(texture_path_buff, RESOURCES_PATH,
-                                                                 "/images/background.png"));
+    textures.board = Loader_LoadTexture(ren,
+                                        Common_StringConcat(texture_path_buff, RESOURCES_PATH,
+                                                            "/images/board.png"));
     textures.ball = Loader_LoadTexture(ren, Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/images/ball.png"));
-    textures.deck = Loader_LoadTexture(ren, Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/images/deck.png"));
-    if (textures.background == NULL ||
+    textures.player = Loader_LoadTexture(ren,
+                                         Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/images/player.png"));
+    if (textures.board == NULL ||
         textures.ball == NULL ||
-        textures.deck == NULL) {
+        textures.player == NULL) {
         printf("Loader_LoadTexture: %s\n", SDL_GetError());
         return false;
     }
 
-    sounds.beep = Loader_LoadAudio(Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/sounds/beep.wav"));
-    if (sounds.beep == NULL) {
+    sounds.caught = Loader_LoadAudio(Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/sounds/caught.wav"));
+    sounds.fall = Loader_LoadAudio(Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/sounds/fall.wav"));
+    if (sounds.caught == NULL ||
+        sounds.fall == NULL) {
         printf("Loader_LoadAudio: %s\n", SDL_GetError());
         return false;
     }

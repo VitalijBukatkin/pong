@@ -44,13 +44,14 @@ extern SDL_Joystick *joystick;
 extern SDL_Haptic *haptic;
 
 typedef struct {
-    SDL_Texture *background;
+    SDL_Texture *board;
     SDL_Texture *ball;
-    SDL_Texture *deck;
+    SDL_Texture *player;
 } TexturesPack;
 
 typedef struct {
-    Mix_Chunk *beep;
+    Mix_Chunk *caught;
+    Mix_Chunk *fall;
 } SoundsPack;
 
 typedef struct {

@@ -26,7 +26,7 @@ typedef enum {
     GAME_FALL_PLAYER_2,
     GAME_CAUGHT,
     GAME_OUT_OF
-} Game_FallType;
+} Game_PlayerStatus;
 
 extern int BALL_SPEED;
 
