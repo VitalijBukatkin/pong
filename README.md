@@ -18,8 +18,8 @@
 3. Execute `meson build`
 4. Application building: for build debian package, execute `ninja -C build package`
 or simply build project, execute `ninja -C build`
-5. You can install made package, execute `dpkg -i build/pong*.deb`
+5. You can install made package, execute `sudo dpkg -i build/pong*.deb`
 
 ### Controls
-- LEFT - W, S / LEFT STICK UP - DOWN
-- RIGHT - UP, DOWN / RIGHT STICK UP - DOWN
+- LEFT - W, S / LEFT STICK
+- RIGHT - UP, DOWN / RIGHT STICK
