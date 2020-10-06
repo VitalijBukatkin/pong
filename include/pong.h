@@ -16,8 +16,8 @@
 #define GAME_TITLE "Pong"
 #define MAX_SCORE 10
 
-//activate for local start
-//#define DEBUG
+//deactivate for release start
+#define DEBUG
 
 #ifdef DEBUG
 #define RESOURCES_PATH_CONST "../themes/"

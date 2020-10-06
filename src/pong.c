@@ -260,6 +260,14 @@ int main(int argc, char *argv[]) {
     if (!prepare_arguments(argc, argv)) {
         return 0;
     }
+
+    #ifdef DEBUG
+        printf(
+            "DEBUG VERSION\n"
+            "For build release, deactivate DEBUG in pong.h\n"
+            "\n");
+    #endif
+
     printf("Add '--h' in arguments for getting help\n");
 
     if (!init_game()) {
