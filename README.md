@@ -24,6 +24,6 @@
 4. Build project, execute `ninja -C build-dir`
 5. Run `cd build-dir && ./pong`
 
-## Building flatpak package
+## Building Flatpak package
 1. Build and install: `cd build-aux && flatpak-builder --install build-dir com.github.witalijbukatkin.Pong.yml`
 3. Run: `flatpak run com.github.witalijbukatkin.Pong`
