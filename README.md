@@ -11,15 +11,19 @@
 - libsdl2-ttf-dev
 - libsdl2-image-dev
 - libsdl2-mixer-dev
+- flatpak-builder (for build flatpak)
 
-## Building on Ubuntu
-1. Execute `sudo apt install meson libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev`
-2. Clone this repository and go to folder
-3. Execute `meson build`
-4. Application building: for build debian package, execute `ninja -C build package`
-or simply build project, execute `ninja -C build`
-5. You can install made package, execute `sudo dpkg -i build/pong*.deb`
-
-### Controls
+## Controls
 - LEFT - W, S / LEFT STICK
 - RIGHT - UP, DOWN / RIGHT STICK
+
+## Building on Ubuntu
+1. Execute `sudo apt install meson libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev fakeroot`
+2. Clone this repository and go to folder
+3. Execute `meson builddir`
+4. Build project, execute `ninja -C builddir`
+
+## Make flatpak
+1. `cd build-aux`
+2. `flatpak-builder --install build-dir com.github.witalijbukatkin.Pong.yaml`
+3. `flatpak run com.github.witalijbukatkin.Pong`

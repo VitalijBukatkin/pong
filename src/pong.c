@@ -2,6 +2,9 @@
 // Created by vitalijbukatkin on 30.05.2020.
 //
 
+#include <signal.h>
+#include <stdlib.h>
+
 #include <time.h>
 #include "../include/pong.h"
 #include "../include/game.h"
@@ -256,7 +259,17 @@ bool prepare_arguments(int argc, char **argv) {
     return true;
 }
 
+void catch_sigsegv_signal() {
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+                                 "An error occured!",
+                                 "This program has SIGSEGV signal, exit", NULL);
+    destroy_game();              
+    exit(3);
+}
+
 int main(int argc, char *argv[]) {
+    signal(SIGSEGV, catch_sigsegv_signal);
+    
     if (!prepare_arguments(argc, argv)) {
         return 0;
     }

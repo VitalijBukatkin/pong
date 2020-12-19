@@ -1,0 +1,52 @@
+id: com.github.witalijbukatkin.Pong
+runtime: org.freedesktop.Platform
+runtime-version: '20.08'
+sdk: org.freedesktop.Sdk
+command: pong
+rename-icon: pong
+finish-args:
+  - --device=all
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --socket=pulseaudio
+modules:
+  - name: resources
+    buildsystem: simple
+    build-commands:
+      - mkdir -pv /app/share/themes/space/fonts /app/share/themes/space/sounds /app/share/themes/space/images
+      - install -v Fonts-Online.ttf /app/share/themes/space/fonts/Fonts-Online.ttf
+      - install -v fall.wav /app/share/themes/space/sounds/fall.wav
+      - install -v caught.wav /app/share/themes/space/sounds/caught.wav
+      - install -v ball.png /app/share/themes/space/images/ball.png
+      - install -v player.png /app/share/themes/space/images/player.png
+      - install -v board.png /app/share/themes/space/images/board.png
+      - mkdir -pv /app/share/icons/hicolor/256x256/apps
+      - install -v icon-256.png /app/share/icons/hicolor/256x256/apps/pong.png
+      - mkdir -pv /app/share/applications
+      - install -v pong.desktop /app/share/applications/com.github.witalijbukatkin.Pong.desktop
+    sources:
+      - type: file
+        path: ../themes/space/fonts/Fonts-Online.ttf
+      - type: file
+        path: ../themes/space/sounds/fall.wav
+      - type: file
+        path: ../themes/space/sounds/caught.wav
+      - type: file
+        path: ../themes/space/images/ball.png
+      - type: file
+        path: ../themes/space/images/player.png
+      - type: file
+        path: ../themes/space/images/board.png
+      - type: file
+        path: icon-256.png
+      - type: file
+        path: pong.desktop
+  - name: pong
+    builddir: true
+    buildsystem: meson
+    sources:
+      - type: dir
+        path: ../
+      - type: patch
+        path: resources_flatpak.patch

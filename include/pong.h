@@ -16,14 +16,7 @@
 #define GAME_TITLE "Pong"
 #define MAX_SCORE 10
 
-//deactivate for release start
-#define DEBUG
-
-#ifdef DEBUG
 #define RESOURCES_PATH_CONST "../themes/"
-#else
-#define RESOURCES_PATH_CONST "/usr/local/share/pong-0.1/themes/"
-#endif
 
 #define SCREEN_WIDTH_CONST 1280
 #define SCREEN_HEIGHT_CONST 800

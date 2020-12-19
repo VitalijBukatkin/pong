@@ -1,11 +1,10 @@
 [Desktop Entry]
-Version=0.1
 Name=Pong
 Comment=Simple Pong game on SDL
 Comment[ru]=Простая реализация Pong на SDL
-Exec=/usr/local/bin/pong
-TryExec=/usr/local/bin/pong
-Icon=/usr/local/share/pong-0.1/icon.png
+Exec=/app/bin/pong
+TryExec=/app/bin/pong
+Icon=pong
 Terminal=false
 Type=Application
 Categories=Game

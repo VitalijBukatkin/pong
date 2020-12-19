@@ -2,22 +2,23 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Start Pong",
+            "name": "Run",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/pong",
+            "program": "${workspaceFolder}/build-dir/pong",
+            "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build",
+            "cwd": "${workspaceFolder}/build-dir",
+            "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [
                 {
-                    "description": "Enable automate format for gdb",
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "build" 
+            "preLaunchTask": "Meson: Build pong"
         }
     ]
 }

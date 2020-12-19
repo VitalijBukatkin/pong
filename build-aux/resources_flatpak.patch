@@ -1,0 +1,12 @@
+--- a/include/pong.h	2020-12-19 16:38:30.000000000 +0200
++++ b/include/pong.h	2017-12-19 16:38:30.000000000 +0200
+@@ -16,7 +16,7 @@
+ #define GAME_TITLE "Pong"
+ #define MAX_SCORE 10
+ 
+-#define RESOURCES_PATH_CONST "../themes/"
++#define RESOURCES_PATH_CONST "/app/share/themes/"
+ 
+ #define SCREEN_WIDTH_CONST 1280
+ #define SCREEN_HEIGHT_CONST 800
+

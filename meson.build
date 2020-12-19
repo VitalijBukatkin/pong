@@ -16,5 +16,3 @@ sources = files('src/pong.c', 'include/pong.h',
     'src/util/common.c', 'include/util/common.h')
 
 executable('pong', sources, dependencies: dependencies, install: true,)
-
-run_target('package', command : 'package/create-package.sh')
