@@ -15,4 +15,4 @@ sources = files('src/pong.c', 'include/pong.h',
     'src/util/render.c', 'include/util/render.h',
     'src/util/common.c', 'include/util/common.h')
 
-executable('pong', sources, dependencies: dependencies, install: true,)
+executable('pong', sources, dependencies: dependencies)
