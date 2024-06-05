@@ -15,10 +15,10 @@ sources = [
     'src/pong.c',
     'src/game.c',
     'src/diagnostics.c',
-    'src/util/events.c',
-    'src/util/loader.c',
-    'src/util/render.c',
-    'src/util/common.c',
+    'src/events.c',
+    'src/loader.c',
+    'src/render.c',
+    'src/common.c',
 ]
 
 executable('pong', 

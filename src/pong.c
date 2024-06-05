@@ -6,11 +6,11 @@
 #include <stdlib.h>
 
 #include <time.h>
-#include "../include/pong.h"
-#include "../include/game.h"
-#include "../include/diagnostics.h"
-#include "../include/util/loader.h"
-#include "../include/util/common.h"
+#include "pong.h"
+#include "game.h"
+#include "diagnostics.h"
+#include "loader.h"
+#include "common.h"
 
 int SCREEN_WIDTH = SCREEN_WIDTH_CONST;
 int SCREEN_HEIGHT = SCREEN_HEIGHT_CONST;

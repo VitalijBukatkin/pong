@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include "SDL_joystick.h"
 #include "SDL_events.h"
-#include "../include/util/events.h"
+#include "events.h"
 
 void print_joystick_info(SDL_Joystick *joystick) {
     printf(" ---- JOYSTICK ---- \n");

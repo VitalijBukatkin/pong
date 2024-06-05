@@ -3,7 +3,7 @@
 //
 
 #include "SDL_events.h"
-#include "../../include/util/events.h"
+#include "events.h"
 
 Events_EventType Events_GetEventType(SDL_Event event) {
     if (event.type == SDL_JOYAXISMOTION) {

@@ -2,9 +2,9 @@
 // Created by vitalijbukatkin on 29.05.2020.
 //
 
-#include "../include/pong.h"
-#include "../include/game.h"
-#include "../include/util/common.h"
+#include "pong.h"
+#include "game.h"
+#include "common.h"
 
 char TEXT_BUFF[50];
 
