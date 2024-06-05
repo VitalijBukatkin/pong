@@ -8,7 +8,6 @@
 #include <time.h>
 #include "pong.h"
 #include "game.h"
-#include "diagnostics.h"
 #include "loader.h"
 #include "common.h"
 
@@ -198,7 +197,6 @@ bool init_game() {
 void print_help() {
     printf("Pong!!\n"
            " Help: \n"
-           " --d - diagnostic mode\n"
            " --h - this help\n"
            " -w 1024 - display width\n"
            " -h 768 - display height\n"
@@ -213,13 +211,7 @@ void print_help() {
 
 bool prepare_arguments(int argc, char **argv) {
     for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "--d") == 0) {
-            if (init_libraries()) {
-                init_joystick();
-                Diagnostics_Loop(joystick);
-            }
-            return false;
-        } else if (strcmp(argv[i], "--h") == 0) {
+        if (strcmp(argv[i], "--h") == 0) {
             print_help();
             return false;
         } else if (strcmp(argv[i], "-w") == 0 && argc > i + 1) {
@@ -259,17 +251,7 @@ bool prepare_arguments(int argc, char **argv) {
     return true;
 }
 
-void catch_sigsegv_signal() {
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-                                 "An error occured!",
-                                 "This program has SIGSEGV signal, exit", NULL);
-    destroy_game();              
-    exit(3);
-}
-
-int main(int argc, char *argv[]) {
-    signal(SIGSEGV, catch_sigsegv_signal);
-    
+int main(int argc, char *argv[]) {    
     if (!prepare_arguments(argc, argv)) {
         return 0;
     }

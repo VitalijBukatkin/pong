@@ -14,7 +14,6 @@ endif
 sources = [
     'src/pong.c',
     'src/game.c',
-    'src/diagnostics.c',
     'src/events.c',
     'src/loader.c',
     'src/render.c',
