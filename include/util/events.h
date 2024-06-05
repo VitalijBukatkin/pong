@@ -2,7 +2,7 @@
 // Created by vitalijbukatkin on 29.05.2020.
 //
 
-#include <SDL2/SDL_events.h>
+#include "SDL_events.h"
 
 #ifndef PONG_EVENTS_H
 #define PONG_EVENTS_H

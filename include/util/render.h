@@ -5,8 +5,8 @@
 #ifndef PONG_RENDER_H
 #define PONG_RENDER_H
 
-#include <SDL2/SDL_render.h>
-#include <SDL2/SDL_ttf.h>
+#include "SDL_render.h"
+#include "SDL_ttf.h"
 
 /**
  * Apply layer on screen

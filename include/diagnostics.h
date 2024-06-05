@@ -5,7 +5,7 @@
 #ifndef PONG_DIAGNOSTICS_H
 #define PONG_DIAGNOSTICS_H
 
-#include <SDL2/SDL_joystick.h>
+#include "SDL_joystick.h"
 
 void Diagnostics_Loop(SDL_Joystick *joystick);
 

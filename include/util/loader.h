@@ -5,8 +5,8 @@
 #ifndef PONG_LOADER_H
 #define PONG_LOADER_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#include "SDL.h"
+#include "SDL_ttf.h"
 
 SDL_Joystick *Loader_LoadJoystick();
 

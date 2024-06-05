@@ -3,8 +3,8 @@
 //
 
 #include <stdbool.h>
-#include <SDL2/SDL_joystick.h>
-#include <SDL2/SDL_events.h>
+#include "SDL_joystick.h"
+#include "SDL_events.h"
 #include "../include/util/events.h"
 
 void print_joystick_info(SDL_Joystick *joystick) {

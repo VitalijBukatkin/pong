@@ -2,7 +2,7 @@
 // Created by vitalijbukatkin on 29.05.2020.
 //
 
-#include <SDL2/SDL_events.h>
+#include "SDL_events.h"
 #include "../../include/util/events.h"
 
 Events_EventType Events_GetEventType(SDL_Event event) {

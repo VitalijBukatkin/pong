@@ -2,8 +2,8 @@
 // Created by vitalijbukatkin on 29.05.2020.
 //
 
-#include <SDL2/SDL_joystick.h>
-#include <SDL2/SDL_haptic.h>
+#include "SDL_joystick.h"
+#include "SDL_haptic.h"
 
 SDL_Joystick *Loader_LoadJoystick() {
     if (SDL_NumJoysticks() > 0) {
