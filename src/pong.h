@@ -10,8 +10,7 @@
 #include "SDL_ttf.h"
 #include "SDL_image.h"
 #include "SDL_mixer.h"
-#include "events.h"
-#include "render.h"
+#include "support.h"
 
 #define GAME_TITLE "Pong"
 #define MAX_SCORE 10

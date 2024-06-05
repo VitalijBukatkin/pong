@@ -4,30 +4,30 @@
 
 #include "pong.h"
 #include "game.h"
-#include "common.h"
+#include "support.h"
 
 char TEXT_BUFF[50];
 
 /**
  * Render game on screen
  */
-void render_game(SDL_Renderer *ren, Game_Ball ball, Game_Player pl1, Game_Player pl2) {
+void render_game(SDL_Renderer *ren, Ball ball, Player pl1, Player pl2) {
     SDL_RenderClear(ren);
 
-    Render_ApplyTexture(ren, NULL, NULL, textures.board);
-    Render_ApplyTexture(ren, NULL, &pl1.pos, pl1.texture);
-    Render_ApplyTexture(ren, NULL, &pl2.pos, pl2.texture);
+    apply_texture_to_renderer(ren, NULL, NULL, textures.board);
+    apply_texture_to_renderer(ren, NULL, &pl1.pos, pl1.texture);
+    apply_texture_to_renderer(ren, NULL, &pl2.pos, pl2.texture);
 
     SDL_Rect rect = {0, 0, ball.pos.w, ball.pos.h};
     if (ball.active == true) {
         rect.x = rect.w;
     }
-    Render_ApplyTexture(ren, &rect, &ball.pos, ball.texture);
+    apply_texture_to_renderer(ren, &rect, &ball.pos, ball.texture);
 
     sprintf(TEXT_BUFF, "%d", pl1.score);
-    Render_ApplyTextWithColor(ren, fonts.main, TEXT_BUFF, pl1.pos.w + 10, pl1.pos.w, TEXT_COLOR);
+    apply_text_to_renderer(ren, fonts.main, TEXT_BUFF, pl1.pos.w + 10, pl1.pos.w, TEXT_COLOR);
     sprintf(TEXT_BUFF, "%d", pl2.score);
-    Render_ApplyTextWithColor(ren, fonts.main, TEXT_BUFF, SCREEN_WIDTH - pl2.pos.w - 20, pl2.pos.w, TEXT_COLOR);
+    apply_text_to_renderer(ren, fonts.main, TEXT_BUFF, SCREEN_WIDTH - pl2.pos.w - 20, pl2.pos.w, TEXT_COLOR);
 
     SDL_RenderPresent(ren);
 }
@@ -35,10 +35,10 @@ void render_game(SDL_Renderer *ren, Game_Ball ball, Game_Player pl1, Game_Player
 /**
  * Render result game on screen
  */
-void render_end_game(SDL_Renderer *ren, Game_Player pl1, Game_Player pl2) {
+void render_end_game(SDL_Renderer *ren, Player pl1, Player pl2) {
     SDL_RenderClear(ren);
 
-    Render_ApplyTexture(ren, NULL, NULL, textures.board);
+    apply_texture_to_renderer(ren, NULL, NULL, textures.board);
 
     char *winner;
     if (pl1.score < pl2.score)
@@ -49,7 +49,7 @@ void render_end_game(SDL_Renderer *ren, Game_Player pl1, Game_Player pl2) {
         winner = "ALL";
 
     sprintf(TEXT_BUFF, "%s win!!! Score: %d/%d", winner, pl1.score, pl2.score);
-    Render_ApplyTextWithColor(ren, fonts.main, TEXT_BUFF, (SCREEN_WIDTH / 2) - 150, SCREEN_HEIGHT / 2, TEXT_COLOR);
+    apply_text_to_renderer(ren, fonts.main, TEXT_BUFF, (SCREEN_WIDTH / 2) - 150, SCREEN_HEIGHT / 2, TEXT_COLOR);
     SDL_RenderPresent(ren);
 }
 
@@ -57,7 +57,7 @@ void render_end_game(SDL_Renderer *ren, Game_Player pl1, Game_Player pl2) {
  * 1. Check borders for ball and revert direction
  * 2. Move ball
  */
-void ball_move(Game_Ball *ball, Game_PlayerStatus playerStatus) {
+void ball_move(Ball *ball, PlayerStatus playerStatus) {
     if (playerStatus == GAME_CAUGHT) {
         ball->speed_x = -ball->speed_x;
     } else if (ball->pos.y + ball->pos.h + ball->speed_y > SCREEN_HEIGHT
@@ -72,7 +72,7 @@ void ball_move(Game_Ball *ball, Game_PlayerStatus playerStatus) {
 /**
  * Check falls ball for players
  */
-Game_PlayerStatus check_player_status(Game_Ball ball, Game_Player pl1, Game_Player pl2) {
+PlayerStatus check_player_status(Ball ball, Player pl1, Player pl2) {
     if (ball.pos.x + ball.speed_x <= pl1.pos.x + pl1.pos.w) {
         if (ball.pos.y < pl1.pos.y || ball.pos.y > pl1.pos.y + pl1.pos.h)
             return GAME_FALL_PLAYER_1;
@@ -89,7 +89,7 @@ Game_PlayerStatus check_player_status(Game_Ball ball, Game_Player pl1, Game_Play
 /**
  * Move player bat UP/DOWN
  */
-void player_move(Events_EventType eventType, Game_Player *pl1, Game_Player *pl2) {
+void player_move(EventType eventType, Player *pl1, Player *pl2) {
     switch (eventType) {
         case Events_LEFT_STICK_MOVE_UP:
         case Events_BUTTON_W:
@@ -123,11 +123,11 @@ void player_move(Events_EventType eventType, Game_Player *pl1, Game_Player *pl2)
 /**
  * Refresh game elements
  */
-void init_game_elements(Game_Ball *ball, Game_Player *pl1, Game_Player *pl2) {
+void init_game_elements(Ball *ball, Player *pl1, Player *pl2) {
     ball->pos.x = (SCREEN_WIDTH - ball->pos.w) / 2;
     ball->pos.y = (SCREEN_HEIGHT - ball->pos.h) / 2;
-    ball->speed_x = Common_GetRandomInt(0, 1) == 0 ? BALL_SPEED : -BALL_SPEED;
-    ball->speed_y = Common_GetRandomInt(0, 1) == 0 ? BALL_SPEED : -BALL_SPEED;
+    ball->speed_x = randint(0, 1) == 0 ? BALL_SPEED : -BALL_SPEED;
+    ball->speed_y = randint(0, 1) == 0 ? BALL_SPEED : -BALL_SPEED;
 
     pl1->pos.x = 0;
     pl1->pos.y = (SCREEN_HEIGHT - pl1->pos.h) / 2;
@@ -142,7 +142,7 @@ void init_game_elements(Game_Ball *ball, Game_Player *pl1, Game_Player *pl2) {
 /**
  * Start new game
  */
-void start_new_game(Game_Ball *ball, Game_Player *pl1, Game_Player *pl2) {
+void start_new_game(Ball *ball, Player *pl1, Player *pl2) {
     ball->texture = textures.ball;
     pl1->texture = textures.player;
     pl2->texture = textures.player;
@@ -163,9 +163,9 @@ void start_new_game(Game_Ball *ball, Game_Player *pl1, Game_Player *pl2) {
 /**
  * Main game loop
  */
-void Game_Loop(SDL_Renderer *ren) {
-    Game_Ball ball;
-    Game_Player player1, player2;
+void game_loop(SDL_Renderer *ren) {
+    Ball ball;
+    Player player1, player2;
 
     start_new_game(&ball, &player1, &player2);
 
@@ -174,7 +174,7 @@ void Game_Loop(SDL_Renderer *ren) {
 
     while (run) {
         while (SDL_PollEvent(&e) != 0) {
-            Events_EventType type = Events_GetEventType(e);
+            EventType type = get_event_type_from_raw(e);
             if (type == Events_BUTTON_ESC || type == Events_QUIT) {
                 run = false;
                 break;
@@ -182,7 +182,7 @@ void Game_Loop(SDL_Renderer *ren) {
             player_move(type, &player1, &player2);
         }
 
-        Game_PlayerStatus checkFall = check_player_status(ball, player1, player2);
+        PlayerStatus checkFall = check_player_status(ball, player1, player2);
         if (checkFall == GAME_FALL_PLAYER_1 || checkFall == GAME_FALL_PLAYER_2) {
             if (checkFall)
                 player1.score++;
@@ -193,8 +193,8 @@ void Game_Loop(SDL_Renderer *ren) {
                 break;
             }
             init_game_elements(&ball, &player1, &player2);
-            Common_PlaySound(sounds.fall);
-            Common_PlayRumble(haptic);
+            play_sound(sounds.fall);
+            play_haptic_rumble(haptic);
         } else {
             ball_move(&ball, checkFall);
         }
@@ -206,12 +206,12 @@ void Game_Loop(SDL_Renderer *ren) {
         }
 
         if (checkFall == 2) {
-            Common_PlaySound(sounds.caught);
+            play_sound(sounds.caught);
             ball.active = true;
         }
         SDL_Delay(100);
     }
-    Common_PlayRumble(haptic);
+    play_haptic_rumble(haptic);
     render_end_game(ren, player1, player2);
 
     SDL_Delay(5000);

@@ -14,10 +14,7 @@ endif
 sources = [
     'src/pong.c',
     'src/game.c',
-    'src/events.c',
-    'src/loader.c',
-    'src/render.c',
-    'src/common.c',
+    'src/support.c',
 ]
 
 executable('pong', 

@@ -8,8 +8,7 @@
 #include <time.h>
 #include "pong.h"
 #include "game.h"
-#include "loader.h"
-#include "common.h"
+#include "support.h"
 
 int SCREEN_WIDTH = SCREEN_WIDTH_CONST;
 int SCREEN_HEIGHT = SCREEN_HEIGHT_CONST;
@@ -32,7 +31,7 @@ SoundsPack sounds;
 void show_start_window() {
     SDL_RenderClear(ren);
 
-    Render_ApplyTexture(ren, 0, 0, textures.board);
+    apply_texture_to_renderer(ren, 0, 0, textures.board);
 
     char *text[] = {
             "Pong!!",
@@ -42,7 +41,7 @@ void show_start_window() {
             " 2020"};
 
     for (int i = 0; i < 4; i++) {
-        Render_ApplyTextWithColor(ren, fonts.main, text[i],
+        apply_text_to_renderer(ren, fonts.main, text[i],
                                   (SCREEN_WIDTH / 2) - 200,
                                   (SCREEN_HEIGHT - 80) / 2 + i * 30, TEXT_COLOR);
     }
@@ -53,7 +52,7 @@ void show_start_window() {
 void show_end_window() {
     SDL_RenderClear(ren);
 
-    Render_ApplyTexture(ren, 0, 0, textures.board);
+    apply_texture_to_renderer(ren, 0, 0, textures.board);
 
     char *text[] = {
             "Thank you!",
@@ -62,7 +61,7 @@ void show_end_window() {
             " 2020"};
 
     for (int i = 0; i < 3; i++) {
-        Render_ApplyTextWithColor(ren, fonts.main, text[i],
+        apply_text_to_renderer(ren, fonts.main, text[i],
                                   (SCREEN_WIDTH / 2) - 200,
                                   (SCREEN_HEIGHT - 70) / 2 + i * 30, TEXT_COLOR);
     }
@@ -71,12 +70,12 @@ void show_end_window() {
 }
 
 void destroy_game() {
-    Loader_UnloadAudio(sounds.caught);
-    Loader_UnloadTexture(textures.board);
-    Loader_UnloadTexture(textures.ball);
-    Loader_UnloadFont(fonts.main);
-    Loader_UnloadHaptic(haptic);
-    Loader_UnloadJoystick(joystick);
+    Mix_FreeChunk(sounds.caught);
+    SDL_DestroyTexture(textures.board);
+    SDL_DestroyTexture(textures.ball);
+    TTF_CloseFont(fonts.main);
+    SDL_HapticClose(haptic);
+    SDL_JoystickClose(joystick);
     SDL_DestroyRenderer(ren);
     SDL_DestroyWindow(win);
     SDL_Quit();
@@ -84,44 +83,46 @@ void destroy_game() {
 
 bool init_resources() {
     char texture_path_buff[150];
-    textures.board = Loader_LoadTexture(ren,
-                                        Common_StringConcat(texture_path_buff, RESOURCES_PATH,
-                                                            "/images/board.png"));
-    textures.ball = Loader_LoadTexture(ren, Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/images/ball.png"));
-    textures.player = Loader_LoadTexture(ren,
-                                         Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/images/player.png"));
+    textures.board = IMG_LoadTexture(ren, strconcat(texture_path_buff, RESOURCES_PATH, "/images/board.png"));
+    textures.ball = IMG_LoadTexture(ren, strconcat(texture_path_buff, RESOURCES_PATH, "/images/ball.png"));
+    textures.player = IMG_LoadTexture(ren, strconcat(texture_path_buff, RESOURCES_PATH, "/images/player.png"));
     if (textures.board == NULL ||
         textures.ball == NULL ||
         textures.player == NULL) {
-        printf("Loader_LoadTexture: %s\n", SDL_GetError());
+        printf("IMG_LoadTexture: %s\n", SDL_GetError());
         return false;
     }
 
-    sounds.caught = Loader_LoadAudio(Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/sounds/caught.wav"));
-    sounds.fall = Loader_LoadAudio(Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/sounds/fall.wav"));
+    sounds.caught = Mix_LoadWAV(strconcat(texture_path_buff, RESOURCES_PATH, "/sounds/caught.wav"));
+    sounds.fall = Mix_LoadWAV(strconcat(texture_path_buff, RESOURCES_PATH, "/sounds/fall.wav"));
     if (sounds.caught == NULL ||
         sounds.fall == NULL) {
-        printf("Loader_LoadAudio: %s\n", SDL_GetError());
+        printf("Mix_LoadWAV: %s\n", SDL_GetError());
         return false;
     }
 
-    fonts.main = Loader_LoadFont(Common_StringConcat(texture_path_buff, RESOURCES_PATH, "/fonts/Fonts-Online.ttf"), 24);
+    fonts.main = TTF_OpenFont(strconcat(texture_path_buff, RESOURCES_PATH, "/fonts/Fonts-Online.ttf"), 24);
     if (fonts.main == NULL) {
-        printf("Loader_LoadFont: %s\n", SDL_GetError());
+        printf("TTF_OpenFont: %s\n", SDL_GetError());
         return false;
     }
     return true;
 }
 
 bool init_joystick() {
-    joystick = Loader_LoadJoystick();
-    if (joystick == NULL) {
+    if (SDL_NumJoysticks() <= 0) {
         printf("Joystick not found: %s\n", SDL_GetError());
         return false;
     }
 
-    haptic = Loader_LoadHaptic(joystick);
-    if (haptic == NULL) {
+    joystick = SDL_JoystickOpen(0); // load first joystick
+    if (joystick == NULL || SDL_JoystickNumAxes(joystick) <= 0) {
+        printf("Joystick can'be loaded: %s\n", SDL_GetError());
+        return false;
+    }
+
+    haptic = SDL_HapticOpenFromJoystick(joystick);
+    if (haptic == NULL || SDL_HapticRumbleInit(haptic) < 0) {
         printf("SDL_HapticOpenFromJoystick: %s\n", SDL_GetError());
         return false;
     }
@@ -277,12 +278,12 @@ int main(int argc, char *argv[]) {
     while (run) {
         show_start_window();
         while (SDL_PollEvent(&event) != 0) {
-            Events_EventType type = Events_GetEventType(event);
+            EventType type = get_event_type_from_raw(event);
             if (type == Events_BUTTON_ESC || type == Events_QUIT) {
                 run = false;
                 break;
             } else if (type == Events_BUTTON_START || type == Events_BUTTON_SPACE) {
-                Game_Loop(ren);
+                game_loop(ren);
                 break;
             }
         }
