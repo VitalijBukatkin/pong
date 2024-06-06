@@ -75,11 +75,11 @@ void destroy_game() {
 bool init_resources() {
   char texture_path_buff[150];
   textures.board = IMG_LoadTexture(
-      ren, strconcat(texture_path_buff, RESOURCES_PATH, "/images/board.png"));
+      ren, strconcat(texture_path_buff, RESOURCES_PATH, "/images/board.svg"));
   textures.ball = IMG_LoadTexture(
-      ren, strconcat(texture_path_buff, RESOURCES_PATH, "/images/ball.png"));
+      ren, strconcat(texture_path_buff, RESOURCES_PATH, "/images/ball.svg"));
   textures.player = IMG_LoadTexture(
-      ren, strconcat(texture_path_buff, RESOURCES_PATH, "/images/player.png"));
+      ren, strconcat(texture_path_buff, RESOURCES_PATH, "/images/player.svg"));
   if (textures.board == NULL || textures.ball == NULL ||
       textures.player == NULL) {
     printf("IMG_LoadTexture: %s\n", SDL_GetError());
