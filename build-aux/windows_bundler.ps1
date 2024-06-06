@@ -20,7 +20,7 @@ Copy-Item "builddir/subprojects/SDL2_mixer-2.6.2/sdl2mixer.dll" -Destination "bu
 Copy-Item "builddir/subprojects/libogg-1.3.5/src/ogg.dll" -Destination "builddir/pong/bin" -Force
 Copy-Item "builddir/subprojects/libpng-1.6.40/png16-16.dll" -Destination "builddir/pong/bin" -Force
 Copy-Item "builddir/pong.exe" -Destination "builddir/pong/bin" -Force
-Copy-Item "themes" -Destination "builddir/pong" -Recurse -Force
+Copy-Item "data" -Destination "builddir/pong" -Recurse -Force
 
 Compress-Archive -Path "builddir/pong" -DestinationPath "builddir/pong.zip" -Update
 

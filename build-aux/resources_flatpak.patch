@@ -4,8 +4,8 @@
  #define GAME_TITLE "Pong"
  #define MAX_SCORE 10
  
--#define RESOURCES_PATH_CONST "../themes/"
-+#define RESOURCES_PATH_CONST "/app/share/themes/"
+-#define RESOURCES_PATH_CONST "../pong/"
++#define RESOURCES_PATH_CONST "/app/share/pong/"
  
  #define SCREEN_WIDTH_CONST 1280
  #define SCREEN_HEIGHT_CONST 800

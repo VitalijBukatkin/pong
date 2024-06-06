@@ -17,7 +17,6 @@ SDL_Color TEXT_COLOR = TEXT_COLOR_CONST;
 
 bool FULLSCREEN = true;
 char RESOURCES_PATH[150] = RESOURCES_PATH_CONST;
-char THEME[20] = THEME_CONST;
 
 SDL_Window *win;
 SDL_Renderer *ren;
@@ -154,7 +153,6 @@ bool init_libraries() {
 }
 
 bool init_game() {
-    strcat(RESOURCES_PATH, THEME);
     srand(time(NULL));
 
     if (!init_libraries()) {
@@ -203,7 +201,6 @@ void print_help() {
            " -h 768 - display height\n"
            " -f true/false - fullscreen\n"
            " -s 35 - ball speed\n"
-           " -t space - set game theme\n"
            " -c 255 255 255 - set text color (0 - 255)\n"
            " Vitalij Bukatkin\n"
            " (t.me/wbkid, vitaliy.bukatkin@gmail.com)\n"
@@ -235,8 +232,6 @@ bool prepare_arguments(int argc, char **argv) {
                 printf("-s is out of range, ignore\n");
         } else if (strcmp(argv[i], "-f") == 0 && argc > i + 1) {
             FULLSCREEN = strcmp(argv[++i], "true") == 0;
-        } else if (strcmp(argv[i], "-t") == 0 && argc > i + 1) {
-            strcpy(THEME, argv[++i]);
         } else if (strcmp(argv[i], "-c") == 0 && argc > i + 3) {
             int r = atoi(argv[++i]);
             int g = atoi(argv[++i]);
