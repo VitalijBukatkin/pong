@@ -1,4 +1,4 @@
-# Simple Pong game
+# Simple Pong Game
 
 ## Uses
 - C-11
@@ -17,12 +17,17 @@
 - LEFT - W, S / LEFT STICK
 - RIGHT - UP, DOWN / RIGHT STICK
 
-## Building on Ubuntu
+## Building on Windows
+1. Install MSVC build tools
+2. Install meson
+3. Run `.\build-aux\windows_bundler.ps1`
+
+## Building on Linux
 1. Execute `sudo apt install meson libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev`
 2. Clone this repository and go to folder
-3. Execute `meson build-dir`
-4. Build project, execute `ninja -C build-dir`
-5. Run `cd build-dir && ./pong`
+3. Execute `meson builddir`
+4. Build project, execute `ninja -C builddir`
+5. Run `cd builddir && ./pong`
 
 ## Building Flatpak package
 1. Build and install: `cd build-aux && flatpak-builder --install build-dir com.github.witalijbukatkin.Pong.yml`
