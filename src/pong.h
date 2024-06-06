@@ -5,12 +5,12 @@
 #ifndef PONG_PONG_H
 #define PONG_PONG_H
 
-#include <stdbool.h>
 #include "SDL.h"
-#include "SDL_ttf.h"
 #include "SDL_image.h"
 #include "SDL_mixer.h"
+#include "SDL_ttf.h"
 #include "support.h"
+#include <stdbool.h>
 
 #define GAME_TITLE "Pong"
 #define MAX_SCORE 10
@@ -20,7 +20,8 @@
 #define SCREEN_WIDTH_CONST 1280
 #define SCREEN_HEIGHT_CONST 800
 #define BALL_SPEED_CONST 35
-#define TEXT_COLOR_CONST {255, 255, 255}
+#define TEXT_COLOR_CONST                                                       \
+  { 255, 255, 255 }
 
 #define HAPTIC_STRENGTH 0.7f
 #define HAPTIC_LONG 500
@@ -34,22 +35,22 @@ extern SDL_Joystick *joystick;
 extern SDL_Haptic *haptic;
 
 typedef struct {
-    SDL_Texture *board;
-    SDL_Texture *ball;
-    SDL_Texture *player;
+  SDL_Texture *board;
+  SDL_Texture *ball;
+  SDL_Texture *player;
 } TexturesPack;
 
 typedef struct {
-    Mix_Chunk *caught;
-    Mix_Chunk *fall;
+  Mix_Chunk *caught;
+  Mix_Chunk *fall;
 } SoundsPack;
 
 typedef struct {
-    TTF_Font *main;
+  TTF_Font *main;
 } FontsPack;
 
 extern TexturesPack textures;
 extern FontsPack fonts;
 extern SoundsPack sounds;
 
-#endif //PONG_PONG_H
+#endif // PONG_PONG_H

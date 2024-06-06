@@ -1,6 +1,6 @@
 id: com.github.witalijbukatkin.Pong
 runtime: org.freedesktop.Platform
-runtime-version: '20.08'
+runtime-version: "20.08"
 sdk: org.freedesktop.Sdk
 command: pong
 rename-icon: pong

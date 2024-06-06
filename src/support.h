@@ -10,22 +10,22 @@
 #include "SDL_ttf.h"
 
 typedef enum {
-    Events_UNDEFINED,
-    Events_QUIT,
-    // Keyboard
-    Events_BUTTON_SPACE,
-    Events_BUTTON_ESC,
-    Events_BUTTON_W,
-    Events_BUTTON_S,
-    Events_BUTTON_UP,
-    Events_BUTTON_DOWN,
-    Events_BUTTON_ANY,
-    // Joystick
-    Events_BUTTON_START,
-    Events_LEFT_STICK_MOVE_UP,
-    Events_LEFT_STICK_MOVE_DOWN,
-    Events_RIGHT_STICK_MOVE_UP,
-    Events_RIGHT_STICK_MOVE_DOWN,
+  Events_UNDEFINED,
+  Events_QUIT,
+  // Keyboard
+  Events_BUTTON_SPACE,
+  Events_BUTTON_ESC,
+  Events_BUTTON_W,
+  Events_BUTTON_S,
+  Events_BUTTON_UP,
+  Events_BUTTON_DOWN,
+  Events_BUTTON_ANY,
+  // Joystick
+  Events_BUTTON_START,
+  Events_LEFT_STICK_MOVE_UP,
+  Events_LEFT_STICK_MOVE_DOWN,
+  Events_RIGHT_STICK_MOVE_UP,
+  Events_RIGHT_STICK_MOVE_DOWN,
 } EventType;
 
 /**
@@ -43,17 +43,20 @@ EventType get_event_type_from_raw(SDL_Event event);
 /**
  * play rumble on joystick if exist
  */
-#define play_haptic_rumble(haptic) SDL_HapticRumblePlay(haptic, HAPTIC_STRENGTH, HAPTIC_LONG)
+#define play_haptic_rumble(haptic)                                             \
+  SDL_HapticRumblePlay(haptic, HAPTIC_STRENGTH, HAPTIC_LONG)
 
 /**
  * Apply layer on screen
  */
-#define apply_texture_to_renderer(ren, dstrect, srcrect, tex) SDL_RenderCopy(ren, tex, dstrect, srcrect);
+#define apply_texture_to_renderer(ren, dstrect, srcrect, tex)                  \
+  SDL_RenderCopy(ren, tex, dstrect, srcrect);
 
 /**
  * Apply text on screen
  */
-void apply_text_to_renderer(SDL_Renderer *ren, TTF_Font *font, char *text, int x, int y, SDL_Color textColor);
+void apply_text_to_renderer(SDL_Renderer *ren, TTF_Font *font, char *text,
+                            int x, int y, SDL_Color textColor);
 
 /**
  * get random integer of min on max
@@ -70,4 +73,4 @@ void apply_text_to_renderer(SDL_Renderer *ren, TTF_Font *font, char *text, int x
  */
 char *strconcat(char *buff, char *str1, char *str2);
 
-#endif //PONG_SUPPORT_H
+#endif // PONG_SUPPORT_H
