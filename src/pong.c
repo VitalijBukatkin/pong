@@ -96,7 +96,7 @@ bool init_resources() {
   }
 
   fonts.main = TTF_OpenFont(
-      strconcat(texture_path_buff, RESOURCES_PATH, "/fonts/Fonts-Online.ttf"),
+      strconcat(texture_path_buff, RESOURCES_PATH, "/fonts/Roboto-Regular.ttf"),
       24);
   if (fonts.main == NULL) {
     printf("TTF_OpenFont: %s\n", SDL_GetError());

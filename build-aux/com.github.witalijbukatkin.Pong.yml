@@ -15,7 +15,8 @@ modules:
     buildsystem: simple
     build-commands:
       - mkdir -pv /app/share/pong/fonts /app/share/pong/sounds /app/share/pong/images
-      - install -v Fonts-Online.ttf /app/share/pong/fonts/Fonts-Online.ttf
+      - install -v LICENSE.txt /app/share/pong/fonts/LICENSE.txt
+      - install -v Roboto-Regular.ttf /app/share/pong/fonts/Roboto-Regular.ttf
       - install -v fall.wav /app/share/pong/sounds/fall.wav
       - install -v caught.wav /app/share/pong/sounds/caught.wav
       - install -v ball.png /app/share/pong/images/ball.png
@@ -27,7 +28,9 @@ modules:
       - install -v pong.desktop /app/share/applications/com.github.witalijbukatkin.Pong.desktop
     sources:
       - type: file
-        path: ../data/fonts/Fonts-Online.ttf
+        path: ../data/fonts/LICENSE.txt
+      - type: file
+        path: ../data/fonts/Roboto-Regular.ttf
       - type: file
         path: ../data/sounds/fall.wav
       - type: file

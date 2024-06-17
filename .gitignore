@@ -4,5 +4,4 @@
 builddir
 build-dir
 .flatpak-builder
-/subprojects/*
-!/subprojects/*.wrap
+/subprojects/*/
